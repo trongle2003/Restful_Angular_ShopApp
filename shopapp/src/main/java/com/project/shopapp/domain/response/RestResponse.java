@@ -1,4 +1,4 @@
-package com.project.shopapp.entity.response;
+package com.project.shopapp.domain.response;
 
 public class RestResponse<T> {
     private int statusCode;

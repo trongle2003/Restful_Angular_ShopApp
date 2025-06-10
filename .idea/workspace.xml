@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b17ed00-ac3b-4df5-b452-3bea8aa11dc1" name="Changes" comment="" />
+    <list default="true" id="9b17ed00-ac3b-4df5-b452-3bea8aa11dc1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/shopapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/entity/Category.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/entity/Product.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/entity/response/RestResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/repository/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/repository/CategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/service/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/ultil/error/GlobalException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/src/main/java/com/project/shopapp/ultil/error/GlobalException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopapp/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/shopapp/src/main/resources/application.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,19 +45,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ShopappApplication.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/Workspace/Restful_Angular_ShopApp",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "settings.saveactions"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ShopappApplication.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Workspace/Restful_Angular_ShopApp&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.saveactions&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="ShopappApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.project.shopapp.ShopappApplication" />

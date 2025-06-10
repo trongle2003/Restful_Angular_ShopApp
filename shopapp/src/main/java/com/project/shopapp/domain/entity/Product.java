@@ -1,17 +1,17 @@
-package com.project.shopapp.entity;
+package com.project.shopapp.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import java.time.Instant;
+import lombok.*;
 
+import java.time.Instant;
+import java.util.List;
+
+@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,7 +36,12 @@ public class Product {
     private Instant createdAt;
     private Instant updatedAt;
 
-    @JsonProperty("category_id")
-    private String categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<ProductImage> productImageList;
 
 }

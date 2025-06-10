@@ -1,6 +1,6 @@
 package com.project.shopapp.ultil.error;
 
-import com.project.shopapp.entity.response.RestResponse;
+import com.project.shopapp.domain.response.RestResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

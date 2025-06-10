@@ -1,12 +1,10 @@
-package com.project.shopapp.entity;
+package com.project.shopapp.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @Entity
 @Getter
 @Setter
@@ -17,6 +15,8 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotEmpty(message = "Name category không được để trống")
+    @NotEmpty(message = "Name category is required")
     private String name;
+
+
 }

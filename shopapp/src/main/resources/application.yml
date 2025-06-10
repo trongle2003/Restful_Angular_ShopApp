@@ -21,3 +21,7 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+
+jwt:
+  expiration: 2592000 # 30 days = 30 * 24 * 60 * 60
+  secretKey: yM6F9LdPOMN7eB8AqYTrpH5rcuC4NlUHoRUlwIRNbV8=
