@@ -20,7 +20,7 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class JwtUtil {
+public class JwtTokenUtil {
     @Value("${jwt.expiration}")
     private Long expiration; // time live-> save local
     @Value("${jwt.secretKey}")

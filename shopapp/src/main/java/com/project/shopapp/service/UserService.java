@@ -1,6 +1,6 @@
 package com.project.shopapp.service;
 
-import com.project.shopapp.component.JwtUtil;
+import com.project.shopapp.component.JwtTokenUtil;
 import com.project.shopapp.domain.dtos.UserDTO;
 import com.project.shopapp.domain.entity.Role;
 import com.project.shopapp.domain.entity.User;
@@ -22,7 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
 
     public User handleCreateUser(UserDTO userDTO) throws InvalidException {
@@ -33,11 +33,14 @@ public class UserService {
 
         Role role = roleRepository.findById(userDTO.getRoleId())
                 .orElseThrow(() -> new InvalidException("Role Not Found"));
-
+        if (role.getName().toUpperCase().equals(Role.ADMIN)) {
+            throw new InvalidException("You cannot register an admin account");
+        }
         User newUser = User.builder()
                 .fullName(userDTO.getFullName())
                 .phoneNumber(String.valueOf(userDTO.getPhoneNumber()))
                 .passWord(userDTO.getPassWord())
+                .retypePassword(userDTO.getRetypePassWord())
                 .address(userDTO.getAddress())
                 .dateOfBirth(userDTO.getDateOfBirth())
                 .facebookAccountId(userDTO.getFacebookAccountId())
@@ -71,9 +74,9 @@ public class UserService {
                 throw new InvalidException("Wrong phone number or password");
             }
         }
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(phoneNumber, password,existingUser.getAuthorities());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(phoneNumber, password, existingUser.getAuthorities());
         //authenticate with Java Spring security
         authenticationManager.authenticate(authenticationToken);
-        return jwtUtil.generateToken(existingUser);
+        return jwtTokenUtil.generateToken(existingUser);
     }
 }

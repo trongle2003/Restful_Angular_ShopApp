@@ -1,10 +1,12 @@
 package com.project.shopapp.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.Date;
 
 @Data
@@ -30,6 +32,7 @@ public class UserDTO {
     private String retypePassWord;
 
     @JsonProperty("dateOfBirth")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Ho_Chi_Minh")
     private Date dateOfBirth;
 
     @JsonProperty("facebookAccountId")
@@ -41,4 +44,10 @@ public class UserDTO {
     @NotNull(message = "Role ID is required")
     @JsonProperty("roleId")
     private Long roleId;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Ho_Chi_Minh")
+    private Instant createAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Ho_Chi_Minh")
+    private Instant updateAt;
 }

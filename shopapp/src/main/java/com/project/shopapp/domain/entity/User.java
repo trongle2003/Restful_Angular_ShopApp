@@ -1,5 +1,6 @@
 package com.project.shopapp.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -44,13 +45,16 @@ public class User implements UserDetails {
     @Column(name = "retype_password")
     private String retypePassword;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Ho_Chi_Minh")
     private Instant createAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Ho_Chi_Minh")
     private Instant updateAt;
 
     private int isActive;
 
     @Column(name = "date_of_birth")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Ho_Chi_Minh")
     private Date dateOfBirth;
 
     @Column(name = "facebook_account_id")
@@ -73,6 +77,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + getRole().getName().toUpperCase()));
+        //authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return authorities;
     }
 
