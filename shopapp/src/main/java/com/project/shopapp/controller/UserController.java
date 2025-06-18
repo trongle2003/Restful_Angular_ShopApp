@@ -38,11 +38,11 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiMessage("Login")
-    public ResponseEntity<String> login(@Valid @RequestBody UserLoginDTO userLoginDTO, BindingResult bindingResult) throws InvalidException {
-        String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+    public ResponseEntity<?> login(@Valid @RequestBody UserLoginDTO userLoginDTO, BindingResult bindingResult) throws InvalidException {
         if (bindingResult.hasErrors()) {
             throw new InvalidException(bindingResult.getGlobalError().getDefaultMessage());
         }
-        return ResponseEntity.ok(token);
+        String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassWord());
+        return ResponseEntity.ok("user.login.login_successfully" + token);
     }
 }

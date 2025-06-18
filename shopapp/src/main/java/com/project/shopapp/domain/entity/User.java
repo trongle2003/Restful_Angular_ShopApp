@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
     private String fullName;
 
-    @Column(name = "phone_number")
+    @Column(name = "phoneNumber")
     @NotBlank(message = "Phone number is required")
     @JsonProperty("phoneNumber")
     private String phoneNumber;
