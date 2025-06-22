@@ -21,6 +21,6 @@ public class UserLoginDTO {
     private String passWord;
 
     @Min(value = 1, message = "You must enter role's Id")
-    @JsonProperty("role_id")
+    @JsonProperty("roleId")
     private Long roleId;
 }

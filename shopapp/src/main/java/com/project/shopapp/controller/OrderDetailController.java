@@ -7,6 +7,7 @@ import com.project.shopapp.ultil.anotation.ApiMessage;
 import com.project.shopapp.ultil.error.InvalidException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class OrderDetailController {
 
     @PostMapping("")
     @ApiMessage("Create OrderDetail")
+    @Transactional
     public ResponseEntity<?> createOrderDetail(@Valid @RequestBody OrderDetailDTO orderDetailDTO, BindingResult bindingResult) throws InvalidException {
         if (bindingResult.hasErrors()) {
             throw new InvalidException(bindingResult.getFieldError().getDefaultMessage().toString());
@@ -48,6 +50,7 @@ public class OrderDetailController {
 
     @PutMapping("/{id}")
     @ApiMessage("Update OrderDetail")
+    @Transactional
     public ResponseEntity<?> updateOrderDetail(@Valid @PathVariable long id, @RequestBody OrderDetailDTO orderDetailDTO) throws InvalidException {
         boolean check = this.orderDetailService.handleCheckOrderDetail(id);
         if (!check) {
@@ -59,6 +62,7 @@ public class OrderDetailController {
 
     @DeleteMapping("/{id}")
     @ApiMessage("Delete OrderDetail")
+    @Transactional
     public ResponseEntity<?> deleleOrderDetail(@Valid @PathVariable long id) throws InvalidException {
         this.orderDetailService.handleDeleteOrderDetail(id);
         return ResponseEntity.ok().body("Delete successfuly order detail id " + id);

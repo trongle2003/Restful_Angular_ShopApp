@@ -11,11 +11,17 @@ import com.project.shopapp.repository.ProductImageRepository;
 import com.project.shopapp.repository.ProductRepository;
 import com.project.shopapp.ultil.error.InvalidException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +30,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
+    private final String uploadPath = "uploads";
+
 
     public ResultPaginationDTO handleGetAllProducts(Pageable pageable) {
         Page<Product> page = this.productRepository.findAll(pageable);
@@ -51,14 +59,7 @@ public class ProductService {
 
     public Product handleCreateProduct(ProductDTO productDTO) throws InvalidException {
         Category category = this.categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(() -> new InvalidException("Cannot find category with id: " + productDTO.getCategoryId()));
-        Product newProduct = Product.builder()
-                .name(productDTO.getName())
-                .price(productDTO.getPrice())
-                .thumbnail(productDTO.getThumbnail())
-                .description(productDTO.getDescription())
-                .category(category)
-                .createdAt(Instant.now())
-                .updatedAt(Instant.now()).build();
+        Product newProduct = Product.builder().name(productDTO.getName()).price(productDTO.getPrice()).thumbnail(productDTO.getThumbnail()).description(productDTO.getDescription()).category(category).createdAt(Instant.now()).updatedAt(Instant.now()).build();
         return this.productRepository.save(newProduct);
     }
 
@@ -90,9 +91,23 @@ public class ProductService {
         Product product = this.productRepository.findById(productId).orElseThrow(() -> new InvalidException("Cannot find product with id: " + productImageDTO.getProductId()));
         ProductImage newProductImage = ProductImage.builder().product(product).imageUrl(productImageDTO.getImageUrl()).build();
         int size = productImageRepository.findByProductId(productId).size();
-        if (size >= 5) {
+        List<ProductImage> images = productImageRepository.findByProductId(productId);
+        if (images.size() >= ProductImage.Maximum_Image) {
             throw new InvalidException("Number of images must be less than 5");
         }
         return this.productImageRepository.save(newProductImage);
+    }
+
+    public Resource viewProductImage(String imageName) throws Exception {
+        Path filePath = Paths.get(uploadPath, imageName);
+        if (!Files.exists(filePath)) {
+            filePath = Paths.get(uploadPath, "notfound.jpeg");
+        }
+
+        if (!Files.exists(filePath)) {
+            throw new Exception("Image not found");
+        }
+
+        return new UrlResource(filePath.toUri());
     }
 }

@@ -63,18 +63,25 @@ public class UserService {
         return this.userRepository.findById(id);
     }
 
-    public String login(String phoneNumber, String password) throws InvalidException {
+    public String login(String phoneNumber, String passWord, Long roleId) throws InvalidException {
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
         if (optionalUser.isEmpty()) {
             throw new InvalidException("Invalid phone number or password");
         }
         User existingUser = optionalUser.get();
         if (existingUser.getFacebookAccountId() == 0 && existingUser.getGoogleAccountId() == 0) {
-            if (!passwordEncoder.matches(password, existingUser.getPassword())) {
+            if (!passwordEncoder.matches(passWord, existingUser.getPassword())) {
                 throw new InvalidException("Wrong phone number or password");
             }
         }
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(phoneNumber, password, existingUser.getAuthorities());
+        Optional<Role> optionalRole =
+                roleRepository.findById(roleId);
+        if (optionalRole.isEmpty() || !roleId.equals(existingUser.getRole().getId())) {
+            throw new InvalidException("Role does not exist");
+        }
+
+        UsernamePasswordAuthenticationToken
+                authenticationToken = new UsernamePasswordAuthenticationToken(phoneNumber, passWord, existingUser.getAuthorities());
         //authenticate with Java Spring security
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);

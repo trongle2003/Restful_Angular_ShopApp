@@ -9,6 +9,7 @@ import com.project.shopapp.ultil.anotation.ApiMessage;
 import com.project.shopapp.ultil.error.InvalidException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class OrderController {
 
     @PostMapping("")
     @ApiMessage("Create Order")
+    @Transactional
     public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDTO orderDTO, BindingResult bindingResult) throws InvalidException {
         if (bindingResult.hasErrors()) {
             throw new InvalidException(bindingResult.getFieldError().getDefaultMessage().toString());
@@ -49,6 +51,7 @@ public class OrderController {
 
     @PutMapping("/{id}")
     @ApiMessage("Update Order")
+    @Transactional
     public ResponseEntity<?> updateOrder(@Valid @RequestBody OrderDTO orderDTO, @PathVariable long id, BindingResult bindingResult) throws InvalidException {
         if (bindingResult.hasErrors()) {
             throw new InvalidException(bindingResult.getFieldError().getDefaultMessage().toString());
@@ -66,6 +69,7 @@ public class OrderController {
 
     @DeleteMapping("/{id}")
     @ApiMessage("Delete By Id")
+    @Transactional
     public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
         this.orderService.handleDeleteOrder(id);
         return ResponseEntity.ok().body("Delete order successfully");

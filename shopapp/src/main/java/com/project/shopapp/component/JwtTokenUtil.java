@@ -32,6 +32,7 @@ public class JwtTokenUtil {
         claims.put("phoneNumber", user.getPhoneNumber());
         claims.put("user", user.getId());
         claims.put("authorities", List.of("ROLE_" + user.getRole().getName().toUpperCase()));
+
         try {
             String token = Jwts.builder()
                     .setClaims(claims) // ? extract claims

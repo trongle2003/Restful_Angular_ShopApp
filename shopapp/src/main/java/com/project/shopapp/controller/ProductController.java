@@ -11,11 +11,13 @@ import com.project.shopapp.service.ProductService;
 import com.project.shopapp.ultil.anotation.ApiMessage;
 import com.project.shopapp.ultil.error.InvalidException;
 import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +45,9 @@ public class ProductController {
 
     @GetMapping("")
     @ApiMessage("Get All Products")
-    public ResponseEntity<ResultPaginationDTO> getAllProducts(@RequestParam("page") Optional<String> page, @RequestParam("size") Optional<String> size) {
+    public ResponseEntity<ResultPaginationDTO> getAllProducts(@RequestParam("page") Optional<String> page,
+                                                              @RequestParam("size") Optional<String> size
+    ) {
         String sCurrent = page.isPresent() ? page.get() : "";
         String sPageSize = size.isPresent() ? size.get() : "";
 
@@ -85,12 +89,27 @@ public class ProductController {
 
     @PostMapping(value = "")
     @ApiMessage("Create Product")
+    @Transactional
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDTO productDTO) throws InvalidException {
         Product newProduct = this.productService.handleCreateProduct(productDTO);
         return ResponseEntity.ok().body(newProduct);
     }
 
+    @GetMapping("/images/{imageName}")
+    public ResponseEntity<?> viewImage(@PathVariable String imageName) {
+        try {
+            Resource image = productService.viewProductImage(imageName);
+            String contentType = Files.probeContentType(Paths.get("uploads", imageName));
+            return ResponseEntity.ok()
+                    .contentType(contentType != null ? MediaType.parseMediaType(contentType) : MediaType.APPLICATION_OCTET_STREAM)
+                    .body(image);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error loading image: " + e.getMessage());
+        }
+    }
+
     @PostMapping(value = "/upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Transactional
     public ResponseEntity<?> uploadImages(@PathVariable("id") long productId,
                                           @RequestParam("files") List<MultipartFile> files) throws IOException, InvalidException {
         Product product = this.productService.handleGetProductWithId(productId).orElseThrow(() -> new InvalidException("Product id invalid"));
@@ -116,6 +135,7 @@ public class ProductController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiMessage("Update Product")
+    @Transactional
     public ResponseEntity<?> updateProduct(@Valid @ModelAttribute ProductDTO productDTO, @ModelAttribute MultipartFile file) throws IOException {
         if (file != null) {
             if (file.getSize() > 10 * 1024 * 1024) {
@@ -133,6 +153,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ApiMessage("Delete Product")
+    @Transactional
     public ResponseEntity<String> deleteProduct(@PathVariable long id) {
         this.productImageService.handleDeleteProductImagesByProductId(id);
         this.productService.handleDeleteProduct(id);
@@ -140,6 +161,7 @@ public class ProductController {
     }
 
     @PostMapping("/generateFakeProducts")
+    @Transactional
     public ResponseEntity<?> generateFakeProducts() {
         Faker faker = new Faker();
         int max = 10;

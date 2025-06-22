@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,7 @@ public class CategoryController {
 
     @PostMapping("")
     @ApiMessage("Create Category")
+    @Transactional
     public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult bindingResult) throws InvalidException {
         if (bindingResult.hasErrors()) {
             throw new InvalidException(bindingResult.getFieldError().getDefaultMessage().toString());
@@ -49,6 +51,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     @ApiMessage("Update Category")
+    @Transactional
     public ResponseEntity<?> updateCategory(@PathVariable long id, @RequestBody CategoryDTO categoryDTO) throws InvalidException {
         boolean check = this.categoryService.handleCheckCategory(id);
         if (!check) {
@@ -60,6 +63,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     @ApiMessage("Delete Category")
+    @Transactional
     public ResponseEntity<String> deleteCategory(@PathVariable long id) throws InvalidException {
         boolean check = this.categoryService.handleCheckCategory(id);
         if (!check) {

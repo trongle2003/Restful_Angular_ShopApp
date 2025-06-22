@@ -12,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "product_images")
 public class ProductImage {
+    public static final int Maximum_Image = 6;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

@@ -29,7 +29,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenUtil jwtTokenUtil;
 
     @Override
-
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         if (isByPassToken(request)) {
             filterChain.doFilter(request, response);
@@ -59,7 +58,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private boolean isByPassToken(@NonNull HttpServletRequest request) {
-        final List<Pair<String, String>> byPassTokens = Arrays.asList(Pair.of("/api/v1/products", "GET"), Pair.of("/api/v1/categories", "GET"), Pair.of("/api/v1/users/register", "POST"), Pair.of("/api/v1/users/login", "POST"));
+        final List<Pair<String, String>> byPassTokens = Arrays.asList(
+                Pair.of("/api/v1/products", "GET"),
+                Pair.of("/api/v1/role", "GET"),
+                Pair.of("/api/v1/categories", "GET"),
+                Pair.of("/api/v1/users/register", "POST"),
+                Pair.of("/api/v1/users/login", "POST"));
         for (Pair<String, String> byPassToken : byPassTokens) {
             if (request.getServletPath().contains(byPassToken.getFirst()) && request.getMethod().equals(byPassToken.getSecond())) {
                 return true;

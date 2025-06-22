@@ -40,4 +40,23 @@ public class RestResponse<T> {
         this.data = data;
     }
 
+//    public static <T> RestResponse<T> success(Object message, T data) {
+//        RestResponse<T> response = new RestResponse<>();
+//        response.setStatusCode(200);
+//        response.setError(null);
+//        response.setMessage(message);
+//        response.setData(data);
+//        return response;
+//    }
+//
+//    public static <T> RestResponse<T> error(String error, Object message, int statusCode) {
+//        RestResponse<T> response = new RestResponse<>();
+//        response.setStatusCode(statusCode);
+//        response.setError(error);
+//        response.setMessage(message);
+//        response.setData(null);
+//        return response;
+//    }
+
+
 }
