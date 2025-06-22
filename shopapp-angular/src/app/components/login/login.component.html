@@ -5,16 +5,21 @@
             <div class="login-form mx-auto">
                 <h2 class="login-header">Đăng nhập</h2>
                 <div class="form-group">
-                    <label for="email">Email/Phone</label>
-                    <input type="text" class="form-control" id="email">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" name="phoneNumber" [(ngModel)]="phoneNumber" (input)="onPhoneNumberChange()"
+                        (focus)="loginForm.form.markAsTouched()" required class="form-control" id="phoneNumber">
                     <div class="divider-nospace"></div>
                 </div>
                 <div class="mt-5"></div>
                 <div class="form-group password-field">
                     <label for="password">Mật khẩu</label>
-                    <input type="password" placeholder="Ít nhất 3 ký tự" class="form-control" id="password">
+                    <input type="password" name="passWord" [(ngModel)]="passWord" placeholder="Ít nhất 3 ký tự"
+                        class="form-control" id="password">
                     <i class="password-toggle fas fa-eye-slash"></i>
                     <div class="divider-nospace"></div>
+                    <p class="text-danger" *ngIf="passWord.length < 3 && loginForm.form.touched">Password phải có
+                        ít
+                        nhất 3 ký tự</p>
                 </div>
                 <br><br>
                 <div class="form-group">
@@ -31,13 +36,14 @@
 
                 </div>
                 <div class="form-group">
-                    <select class="form-control access-right">
+                    <select class="form-control access-right" [(ngModel)]="selectedRole">
                         <option selected disabled>Quyền đăng nhập</option>
-                        <option>Người dùng</option>
-                        <option>Quản trị viên</option>
+                        <option *ngFor="let role of roles" [ngValue]="role">
+                            {{role.name}}
+                        </option>
                     </select>
                 </div>
-                <button type="button" class="login-button">Đăng nhập</button>
+                <button type="button" (click)="login()" class="login-button">Đăng nhập</button>
                 <div class="divider"></div>
                 <p class="text-center">Bạn chưa đăng ký? <span><a href="#" class="register-link">Tạo tài khoản
                             ngay</a></span></p>

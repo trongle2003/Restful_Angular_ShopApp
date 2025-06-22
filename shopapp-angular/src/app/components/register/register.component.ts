@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { UserService } from '../../service/user.service';
+import { RegisterDTO } from '../../dto/user/register.dto';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ import { formatDate } from '@angular/common';
 })
 export class RegisterComponent {
   @ViewChild('registerForm') registerForm!: NgForm;
-  phone: string;
+  phoneNumber: string;
   password: string;
   retypePassword: string;
   fullName: string;
@@ -20,20 +21,20 @@ export class RegisterComponent {
   dateOfBirth: string; // Đổi thành string
   isSubmitting: boolean = false; // Thêm để disable button
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.phone = '0374192159';
-    this.password = '123456';
-    this.retypePassword = '123456';
-    this.fullName = 'Lê Đức Trọng';
-    this.address = 'Hà Nội';
+  constructor(private router: Router, private userService: UserService) {
+    this.phoneNumber = '';
+    this.password = '';
+    this.retypePassword = '';
+    this.fullName = '';
+    this.address = '';
     this.isAccepted = false;
     const defaultDate = new Date();
     defaultDate.setFullYear(defaultDate.getFullYear() - 18);
     this.dateOfBirth = formatDate(defaultDate, 'yyyy-MM-dd', 'en-US'); // Khởi tạo yyyy-MM-dd
   }
 
-  onPhoneChange() {
-    console.log(`Phone typed: ${this.phone}`);
+  onPhoneNumberChange() {
+    console.log(`Phone typed: ${this.phoneNumber}`);
   }
 
   register() {
@@ -45,9 +46,9 @@ export class RegisterComponent {
     }
 
     this.isSubmitting = true; // Disable button
-    const registerData = {
+    const registerDTO: RegisterDTO = {
       fullName: this.fullName,
-      phoneNumber: this.phone,
+      phoneNumber: this.phoneNumber,
       address: this.address,
       passWord: this.password,
       retypePassword: this.retypePassword,
@@ -56,32 +57,32 @@ export class RegisterComponent {
       googleAccountId: 0,
       roleId: 2
     };
-    console.log('Dữ liệu gửi:', registerData);
+    console.log('Dữ liệu gửi:', registerDTO);
 
-    const apiUrl = 'http://localhost:8088/api/v1/users/register';
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.http.post(apiUrl, registerData, { headers }).subscribe({
-      next: (response: any) => {
-        console.log('Phản hồi:', response);
-        this.isSubmitting = false; // Re-enable button
-        if (response && (response.status === 200 || response.status === 201)) {
-          this.router.navigate(['/login']);
+    this.userService.register(registerDTO).subscribe(
+      {
+        next: (response: any) => {
+          console.log('Phản hồi:', response);
+          this.isSubmitting = false; 
+          if (response && (response.status === 200 || response.status === 201)) {
+            this.router.navigate(['/login']);
+          }
+        },
+        error: (error: any) => {
+          console.error('Lỗi chi tiết:', {
+            status: error.status,
+            statusText: error.statusText,
+            message: error.error?.message,
+            error: error.error
+          });
+          alert(`Không thể đăng ký, lỗi: ${error.error?.message || error.statusText || 'Dữ liệu không hợp lệ'}`);
+          this.isSubmitting = false; // Re-enable button
+        },
+        complete: () => {
+          this.isSubmitting = false; // Re-enable button
         }
-      },
-      error: (error: any) => {
-        console.error('Lỗi chi tiết:', {
-          status: error.status,
-          statusText: error.statusText,
-          message: error.error?.message,
-          error: error.error
-        });
-        alert(`Không thể đăng ký, lỗi: ${error.error?.message || error.statusText || 'Dữ liệu không hợp lệ'}`);
-        this.isSubmitting = false; // Re-enable button
-      },
-      complete: () => {
-        this.isSubmitting = false; // Re-enable button
       }
-    });
+    );
   }
 
   checkPasswordsMatch() {

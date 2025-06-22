@@ -1,3 +1,5 @@
+@use '../../styles/shared-styles.scss' as *;
+
 .intro-section {
     text-align: center;
     color: white;
@@ -11,9 +13,13 @@
     margin-bottom: 20px;
 }
 
+.product-category {
+    width: 200px;
+}
+
 .search-input {
     width: 300px;
-    background-color: rgb(19, 23, 42);
+    background-color: $shopapp-background-color;
     margin-right: 10px;
     border-color: rgba(255, 255, 255, 0.5);
     color: white;
@@ -25,24 +31,24 @@
 }
 
 .form-control::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: rgba(255, 255, 255, 0.5);
     opacity: 1;
+    /* Firefox */
 }
 
 .form-control:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
     color: rgba(255, 255, 255, 0.5);
 }
 
 .form-control::-ms-input-placeholder {
+    /* Microsoft Edge */
     color: rgba(255, 255, 255, 0.5);
 }
 
-.product-category {
-    width: 200px;
-}
-
 .product-item {
-    background-color: rgb(19, 23, 42);
+    background-color: $shopapp-background-color;
     border: 1px solid rgb(35, 39, 61);
     border-radius: 20px;
     padding: 20px;
@@ -53,7 +59,6 @@
     width: 100%;
     height: auto;
     margin-bottom: 10px;
-    border-radius: 14px;
 }
 
 .product-name {
@@ -65,7 +70,7 @@
 }
 
 .product-warranty {
-    color: rgb(242, 126, 212);
+    color: $shopapp-tint-color;
 }
 
 .product-price {
@@ -73,21 +78,40 @@
 }
 
 .product-rating {
-    color: #ffd700;
+    color: #FFD700;
     margin-top: 10px;
-    margin-bottom: 20px;
 }
 
-.product-action {
+.product-actions {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .space-x {
     margin: 0 5px;
+    /*margin-top, margin-right, margin-bottom, margin-left*/
 }
 
-option {
-    color: black;
+.page-number {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    margin: 0 2px;
+    border-radius: 3px;
+}
+
+.page-number.active {
+    background-color: $shopapp-color !important;
+    color: #fff;
+    border-color: $shopapp-color !important;
+}
+
+.btn-primary {
+    background-color: $shopapp-color;
+    border-color: $shopapp-color;
+}
+
+.btn.btn-primary {
+    margin-left: 10px;
 }
